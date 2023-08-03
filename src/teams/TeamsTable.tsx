@@ -113,5 +113,5 @@ export function TeamsTable(props) {
 }
 
 export function TeamsTableWrapper() {
-  return <TeamsTable />;
+  return <TeamsTable loading={false} />;
 }
