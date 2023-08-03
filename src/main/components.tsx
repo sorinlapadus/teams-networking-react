@@ -1,4 +1,4 @@
-import { TeamsTable, TeamsTableWrapper } from "../teams/TeamsTable";
+import { TeamsTableWrapper } from "../teams/TeamsTable";
 
 export function ContentWrapper() {
   return (

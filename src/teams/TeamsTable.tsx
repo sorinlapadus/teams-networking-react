@@ -1,3 +1,6 @@
+import React from "react";
+import { loadTeamsRequest } from "./middleware";
+
 function TeamRow({ id, url, promotion, members, name }: Team) {
   return (
     <tr>
@@ -8,15 +11,15 @@ function TeamRow({ id, url, promotion, members, name }: Team) {
       <td>{members}</td>
       <td>{name}</td>
       <td>
-        <a href="${url}" target="_blank">
+        <a href="{url}" target="_blank">
           ${url}
         </a>
       </td>
       <td>
-        <button type="button" data-id="${id}" className="action-btn edit-btn">
+        <button type="button" className="action-btn edit-btn">
           &#9998;
         </button>
-        <button type="button" data-id="${id}" className="action-btn remove-btn">
+        <button type="button" className="action-btn remove-btn">
           &#x2672
         </button>
       </td>
@@ -89,32 +92,24 @@ export function TeamsTable(props: Props) {
   );
 }
 
-export function TeamsTableWrapper() {
-  const teams = [
-    {
-      id: "toze8j1610313009673",
-      promotion: "html",
-      members: "Nicolae Matei, HTML",
-      name: "Web Presentation",
-      url: "https://github.com/nmatei/web-intro-presentation",
-      createdBy: "nmatei"
-    },
-    {
-      id: "ezabnf1630345987541",
-      promotion: "css",
-      members: "Nicolae",
-      name: "Names",
-      url: "https://github.com/nmatei/nmatei.github.io",
-      createdBy: "nmatei"
-    },
-    {
-      id: "86mq81630347385708",
-      promotion: "js",
-      members: "Matei, Andrei",
-      name: "JS/HTML/CSS Quiz",
-      url: "https://github.com/nmatei/simple-quiz-app",
-      createdBy: "nmatei"
-    }
-  ];
-  return <TeamsTable loading={false} teams={teams} />;
+type WrapperProps = {};
+type State = { loading: boolean; teams: Team[] };
+
+export class TeamsTableWrapper extends React.Component<WrapperProps, State> {
+  constructor(props) {
+    console.warn("props", props);
+    super(props);
+    this.state = { loading: true, teams: [] };
+  }
+
+  componentDidMount(): void {
+    loadTeamsRequest().then(teams => {
+      console.info("loadTeamsRequest", teams);
+      this.setState({ loading: false, teams: teams });
+    });
+  }
+
+  render() {
+    return <TeamsTable loading={this.state.loading} teams={this.state.teams} />;
+  }
 }
