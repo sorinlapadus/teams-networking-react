@@ -23,7 +23,10 @@ function TeamRow({ id, url, promotion, members, name }) {
     </tr>
   );
 }
-export function TeamsTable(props) {
+
+type Props = { loading: boolean; teams: any[] };
+
+export function TeamsTable(props: Props) {
   console.warn("teams", props.loading);
   return (
     <form action="" id="teamsForm" className={props.loading ? "loading-mask" : ""}>
