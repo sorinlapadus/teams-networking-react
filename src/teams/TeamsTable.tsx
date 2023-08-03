@@ -113,12 +113,5 @@ export function TeamsTableWrapper() {
       createdBy: "nmatei"
     }
   ];
-  return (
-    <>
-      <TeamsTable loading={false} teams={[]} />;
-      <TeamsTable loading={false} teams={teams} />;
-      <TeamsTable loading={true} teams={[]} />;
-      <TeamsTable loading={true} teams={teams} />;
-    </>
-  );
+  return <TeamsTable loading={false} teams={teams} />;
 }
