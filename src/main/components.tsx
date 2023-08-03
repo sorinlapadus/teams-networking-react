@@ -12,7 +12,8 @@ export function ContentWrapper() {
           <label htmlFor="search">🔎</label>
         </div>
       </div>
-      <TeamsTable />
+      <TeamsTable loading={true} />
+      <TeamsTable loading={false} />
     </div>
   );
 }

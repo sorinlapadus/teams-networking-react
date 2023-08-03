@@ -1,6 +1,7 @@
-export function TeamsTable() {
+export function TeamsTable(props) {
+  console.warn("teams", props.loading);
   return (
-    <form action="" id="teamsForm">
+    <form action="" id="teamsForm" className={props.loading ? "loading-mask" : ""}>
       <table id="teamsTable">
         <colgroup>
           <col className="select-all-col" />
