@@ -12,7 +12,7 @@ export function ContentWrapper() {
           <label htmlFor="search">🔎</label>
         </div>
       </div>
-      <TeamsTableWrapper />;
+      <TeamsTableWrapper />
     </div>
   );
 }

@@ -1,7 +1,15 @@
 import React from "react";
-import { loadTeamsRequest } from "./middleware";
+import { deleteTeamRequest, loadTeamsRequest } from "./middleware";
 
-function TeamRow({ id, url, promotion, members, name }: Team) {
+type Team = { id: string; url: string; promotion: string; members: string; name: string };
+type Props = { loading: boolean; teams: Team[] };
+type RowProps = {
+  team: Team;
+  deleteTeam(id: string): void;
+};
+
+function TeamRow(props: RowProps) {
+  const { id, url, promotion, members, name } = props.team;
   return (
     <tr>
       <td style={{ textAlign: "center" }}>
@@ -11,23 +19,27 @@ function TeamRow({ id, url, promotion, members, name }: Team) {
       <td>{members}</td>
       <td>{name}</td>
       <td>
-        <a href="{url}" target="_blank">
-          ${url}
+        <a href={url} target="_blank">
+          {url}
         </a>
       </td>
       <td>
         <button type="button" className="action-btn edit-btn">
           &#9998;
         </button>
-        <button type="button" className="action-btn remove-btn">
-          &#x2672
+        <button
+          type="button"
+          className="action-btn remove-btn"
+          onClick={() => {
+            props.deleteTeam(id);
+          }}
+        >
+          &#x2672;
         </button>
       </td>
     </tr>
   );
 }
-type Team = { id: string; url: string; promotion: string; members: string; name: string };
-type Props = { loading: boolean; teams: Team[] };
 
 export function TeamsTable(props: Props) {
   console.warn("teams", props);
@@ -58,11 +70,10 @@ export function TeamsTable(props: Props) {
           {props.teams.map(team => (
             <TeamRow
               key={team.id}
-              id={team.id}
-              url={team.url}
-              promotion={team.promotion}
-              members={team.members}
-              name={team.name}
+              team={team}
+              deleteTeam={function (id: string) {
+                deleteTeamRequest(id);
+              }}
             />
           ))}
         </tbody>
