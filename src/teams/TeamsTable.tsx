@@ -1,4 +1,4 @@
-function TeamRow({ id, url, promotion, members, name }) {
+function TeamRow({ id, url, promotion, members, name }: Team) {
   return (
     <tr>
       <td style={{ textAlign: "center" }}>
@@ -23,11 +23,11 @@ function TeamRow({ id, url, promotion, members, name }) {
     </tr>
   );
 }
-
-type Props = { loading: boolean; teams: any[] };
+type Team = { id: string; url: string; promotion: string; members: string; name: string };
+type Props = { loading: boolean; teams: Team[] };
 
 export function TeamsTable(props: Props) {
-  console.warn("teams", props.loading);
+  console.warn("teams", props);
   return (
     <form action="" id="teamsForm" className={props.loading ? "loading-mask" : ""}>
       <table id="teamsTable">
