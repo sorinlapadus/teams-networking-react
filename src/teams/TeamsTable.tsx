@@ -16,6 +16,52 @@ type RowActions = {
   deleteTeam(id: string): void;
   startEdit(team: Team): void;
 };
+
+type EditRowProps = {
+  team: Team;
+};
+type EditRowActions = { inputChange(value: string): void };
+function EditTeamRow(props: EditRowProps & EditRowActions) {
+  const { id, url, promotion, members, name } = props.team;
+  return (
+    <tr>
+      <td style={{ textAlign: "center" }}>
+        <input type="checkbox" name="selected" value={id} />
+      </td>
+      <td>
+        <input
+          type="text"
+          value={promotion}
+          name="promotion"
+          placeholder="Enter promotion"
+          required
+          onChange={e => {
+            console.info("onChange", e.target.value);
+            props.inputChange(e.target.value);
+          }}
+        />
+      </td>
+      <td>
+        <input type="text" value={members} name="members" placeholder="Enter members" required />
+      </td>
+      <td>
+        <input type="text" value={name} name="name" placeholder="Enter project name" required />
+      </td>
+      <td>
+        <input type="text" value={url} name="url" placeholder="Enter project URL" required />
+      </td>
+      <td>
+        <button type="submit" className="action-btn">
+          💾
+        </button>
+        <button type="reset" className="action-btn">
+          ✖
+        </button>
+      </td>
+    </tr>
+  );
+}
+
 function TeamRow(props: RowProps & RowActions) {
   const { id, url, promotion, members, name } = props.team;
   return (
@@ -27,7 +73,7 @@ function TeamRow(props: RowProps & RowActions) {
       <td>{members}</td>
       <td>{name}</td>
       <td>
-        <a href={url} target="_blank">
+        <a href={url} target="_blank" rel="noopener">
           {url}
         </a>
       </td>
@@ -63,6 +109,7 @@ type Props = {
 type Actions = {
   deleteTeam(id: string): void;
   startEdit(team: Team): void;
+  inputChange(value: string): void;
   save(): void;
 };
 export function TeamsTable(props: Props & Actions) {
@@ -100,18 +147,23 @@ export function TeamsTable(props: Props & Actions) {
           </tr>
         </thead>
         <tbody>
-          {props.teams.map(team => (
-            <TeamRow
-              key={team.id}
-              team={team}
-              deleteTeam={function (id: string) {
-                props.deleteTeam(id);
-              }}
-              startEdit={() => {
-                props.startEdit(team);
-              }}
-            />
-          ))}
+          {props.teams.map(team => {
+            if (team.id === props.team.id) {
+              return <EditTeamRow key={team.id} team={props.team} inputChange={props.inputChange} />;
+            }
+            return (
+              <TeamRow
+                key={team.id}
+                team={team}
+                deleteTeam={function (id: string) {
+                  props.deleteTeam(id);
+                }}
+                startEdit={() => {
+                  props.startEdit(team);
+                }}
+              />
+            );
+          })}
         </tbody>
         <tfoot>
           <tr id="edit-form">
@@ -226,6 +278,14 @@ export class TeamsTableWrapper extends React.Component<WrapperProps, State> {
         startEdit={team => {
           console.info("startEdit=", team);
           this.setState({ team });
+        }}
+        inputChange={value => {
+          console.info("inputChange", value);
+          this.setState(state => {
+            const team = { ...state.team };
+            team.promotion = value;
+            return { team };
+          });
         }}
       />
     );
