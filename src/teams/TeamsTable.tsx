@@ -1,5 +1,5 @@
 import React from "react";
-import { deleteTeamRequest, loadTeamsRequest } from "./middleware";
+import { deleteTeamRequest, loadTeamsRequest, updateTeamRequest } from "./middleware";
 
 type Team = {
   id: string;
@@ -20,7 +20,7 @@ type RowActions = {
 type EditRowProps = {
   team: Team;
 };
-type EditRowActions = { inputChange(value: string): void };
+type EditRowActions = { inputChange(name: keyof Team, value: string): void };
 function EditTeamRow(props: EditRowProps & EditRowActions) {
   const { id, url, promotion, members, name } = props.team;
   return (
@@ -37,18 +37,48 @@ function EditTeamRow(props: EditRowProps & EditRowActions) {
           required
           onChange={e => {
             console.info("onChange", e.target.value);
-            props.inputChange(e.target.value);
+            props.inputChange("promotion", e.target.value);
           }}
         />
       </td>
       <td>
-        <input type="text" value={members} name="members" placeholder="Enter members" required />
+        <input
+          type="text"
+          value={members}
+          name="members"
+          placeholder="Enter members"
+          required
+          onChange={e => {
+            console.info("onChange", e.target.value);
+            props.inputChange("members", e.target.value);
+          }}
+        />
       </td>
       <td>
-        <input type="text" value={name} name="name" placeholder="Enter project name" required />
+        <input
+          type="text"
+          value={name}
+          name="name"
+          placeholder="Enter project name"
+          required
+          onChange={e => {
+            console.info("onChange", e.target.value);
+            props.inputChange("name", e.target.value);
+          }}
+        />
       </td>
       <td>
-        <input type="text" value={url} name="url" placeholder="Enter project URL" required />
+        <input
+          type="text"
+          value={url}
+          name="url"
+          placeholder="Enter project URL"
+          required
+          onChange={e => {
+            console.info("onChange", e.target.value);
+            props.inputChange("url", e.target.value);
+          }}
+        />
       </td>
       <td>
         <button type="submit" className="action-btn">
@@ -109,7 +139,7 @@ type Props = {
 type Actions = {
   deleteTeam(id: string): void;
   startEdit(team: Team): void;
-  inputChange(value: string): void;
+  inputChange(name: keyof Team, value: string): void;
   save(): void;
 };
 export function TeamsTable(props: Props & Actions) {
@@ -230,6 +260,15 @@ type State = {
   team: Team;
 };
 
+function getEmptyTeam() {
+  return {
+    id: "",
+    name: "",
+    promotion: "",
+    members: "",
+    url: ""
+  };
+}
 export class TeamsTableWrapper extends React.Component<WrapperProps, State> {
   constructor(props) {
     console.warn("props", props);
@@ -237,13 +276,7 @@ export class TeamsTableWrapper extends React.Component<WrapperProps, State> {
     this.state = {
       loading: true,
       teams: [],
-      team: {
-        id: "",
-        name: "",
-        promotion: "",
-        members: "",
-        url: ""
-      }
+      team: getEmptyTeam()
     };
   }
 
@@ -272,18 +305,23 @@ export class TeamsTableWrapper extends React.Component<WrapperProps, State> {
             this.loadTeams();
           }
         }}
-        save={() => {
-          console.info("save");
+        save={async () => {
+          console.info("save", this.state.team);
+          const status = await updateTeamRequest(this.state.team);
+          if (status.success) {
+            this.loadTeams();
+            this.setState({ team: getEmptyTeam() });
+          }
         }}
         startEdit={team => {
           console.info("startEdit=", team);
           this.setState({ team });
         }}
-        inputChange={value => {
+        inputChange={(name, value) => {
           console.info("inputChange", value);
           this.setState(state => {
             const team = { ...state.team };
-            team.promotion = value;
+            team[name] = value;
             return { team };
           });
         }}
