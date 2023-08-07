@@ -103,7 +103,7 @@ function TeamRow(props: RowProps & RowActions) {
       <td>{members}</td>
       <td>{name}</td>
       <td>
-        <a href={url} target="_blank" rel="noopener">
+        <a href={url} target="_blank" rel="noreferrer">
           {url}
         </a>
       </td>
@@ -309,7 +309,7 @@ export class TeamsTableWrapper extends React.Component<WrapperProps, State> {
           console.info("save", this.state.team);
           const status = await updateTeamRequest(this.state.team);
           if (status.success) {
-            this.loadTeams();
+            await this.loadTeams();
             this.setState({ team: getEmptyTeam() });
           }
         }}
