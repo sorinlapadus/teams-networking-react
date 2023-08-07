@@ -9,17 +9,14 @@ type Team = {
   name: string;
 };
 
-type Props = {
-  loading: boolean;
-  teams: Team[];
-};
 type RowProps = {
   team: Team;
 };
-type Actions = {
+type RowActions = {
   deleteTeam(id: string): void;
+  startEdit(team: Team): void;
 };
-function TeamRow(props: RowProps & Actions) {
+function TeamRow(props: RowProps & RowActions) {
   const { id, url, promotion, members, name } = props.team;
   return (
     <tr>
@@ -35,7 +32,13 @@ function TeamRow(props: RowProps & Actions) {
         </a>
       </td>
       <td>
-        <button type="button" className="action-btn edit-btn">
+        <button
+          type="button"
+          className="action-btn edit-btn"
+          onClick={() => {
+            props.startEdit(props.team);
+          }}
+        >
           &#9998;
         </button>
         <button
@@ -52,10 +55,29 @@ function TeamRow(props: RowProps & Actions) {
   );
 }
 
+type Props = {
+  loading: boolean;
+  teams: Team[];
+  team: Team;
+};
+type Actions = {
+  deleteTeam(id: string): void;
+  startEdit(team: Team): void;
+  save(): void;
+};
 export function TeamsTable(props: Props & Actions) {
   console.warn("teams", props);
   return (
-    <form action="" id="teamsForm" className={props.loading ? "loading-mask" : ""}>
+    <form
+      action=""
+      id="teamsForm"
+      className={props.loading ? "loading-mask" : ""}
+      onSubmit={e => {
+        e.preventDefault();
+        console.info("submit");
+        props.save();
+      }}
+    >
       <table id="teamsTable">
         <colgroup>
           <col className="select-all-col" />
@@ -85,6 +107,9 @@ export function TeamsTable(props: Props & Actions) {
               deleteTeam={function (id: string) {
                 props.deleteTeam(id);
               }}
+              startEdit={() => {
+                props.startEdit(team);
+              }}
             />
           ))}
         </tbody>
@@ -92,20 +117,52 @@ export function TeamsTable(props: Props & Actions) {
           <tr id="edit-form">
             <td></td>
             <td>
-              <input type="text" id="promotion" name="promotion" placeholder="Enter promotion" required />
+              <input
+                type="text"
+                id="promotion"
+                name="promotion"
+                placeholder="Enter promotion"
+                required
+                disabled={!!props.team.id}
+              />
             </td>
             <td>
-              <input type="text" id="members" name="members" placeholder="Enter members" required />
+              <input
+                type="text"
+                id="members"
+                name="members"
+                placeholder="Enter members"
+                required
+                disabled={!!props.team.id}
+              />
             </td>
             <td>
-              <input type="text" id="name" name="name" placeholder="Enter project name" required />
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Enter project name"
+                required
+                disabled={!!props.team.id}
+              />
             </td>
             <td>
-              <input type="text" id="url" name="url" placeholder="Enter project URL" required />
+              <input
+                type="text"
+                id="url"
+                name="url"
+                placeholder="Enter project URL"
+                required
+                disabled={!!props.team.id}
+              />
             </td>
             <td>
-              <button type="submit">💾</button>
-              <button type="reset">✖</button>
+              <button type="submit" disabled={!!props.team.id}>
+                💾
+              </button>
+              <button type="reset" disabled={!!props.team.id}>
+                ✖
+              </button>
             </td>
           </tr>
         </tfoot>
@@ -115,7 +172,11 @@ export function TeamsTable(props: Props & Actions) {
 }
 
 type WrapperProps = {};
-type State = { loading: boolean; teams: Team[] };
+type State = {
+  loading: boolean;
+  teams: Team[];
+  team: Team;
+};
 
 export class TeamsTableWrapper extends React.Component<WrapperProps, State> {
   constructor(props) {
@@ -123,7 +184,14 @@ export class TeamsTableWrapper extends React.Component<WrapperProps, State> {
     super(props);
     this.state = {
       loading: true,
-      teams: []
+      teams: [],
+      team: {
+        id: "",
+        name: "",
+        promotion: "",
+        members: "",
+        url: ""
+      }
     };
   }
 
@@ -143,6 +211,7 @@ export class TeamsTableWrapper extends React.Component<WrapperProps, State> {
       <TeamsTable
         loading={this.state.loading}
         teams={this.state.teams}
+        team={this.state.team}
         deleteTeam={async id => {
           console.warn("should remove", id);
           this.setState({ loading: true });
@@ -150,6 +219,13 @@ export class TeamsTableWrapper extends React.Component<WrapperProps, State> {
           if (status.success) {
             this.loadTeams();
           }
+        }}
+        save={() => {
+          console.info("save");
+        }}
+        startEdit={team => {
+          console.info("startEdit=", team);
+          this.setState({ team });
         }}
       />
     );
