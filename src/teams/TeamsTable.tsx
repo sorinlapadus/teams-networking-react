@@ -103,7 +103,7 @@ function TeamRow(props: RowProps & RowActions) {
       <td>{members}</td>
       <td>{name}</td>
       <td>
-        <a href={url} target="_blank" rel="noreferrer">
+        <a href={url} target="_blank" rel="noopener">
           {url}
         </a>
       </td>
