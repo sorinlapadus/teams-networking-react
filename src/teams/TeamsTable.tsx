@@ -8,17 +8,18 @@ type Team = {
   members: string;
   name: string;
 };
+
 type Props = {
   loading: boolean;
   teams: Team[];
-  deleteTeam(id: string): void;
 };
 type RowProps = {
   team: Team;
+};
+type Actions = {
   deleteTeam(id: string): void;
 };
-
-function TeamRow(props: RowProps) {
+function TeamRow(props: RowProps & Actions) {
   const { id, url, promotion, members, name } = props.team;
   return (
     <tr>
@@ -51,7 +52,7 @@ function TeamRow(props: RowProps) {
   );
 }
 
-export function TeamsTable(props: Props) {
+export function TeamsTable(props: Props & Actions) {
   console.warn("teams", props);
   return (
     <form action="" id="teamsForm" className={props.loading ? "loading-mask" : ""}>
