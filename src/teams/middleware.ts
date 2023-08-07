@@ -1,4 +1,6 @@
-export function loadTeamsRequest() {
+import { Team } from "../models";
+
+export function loadTeamsRequest(): Promise<Team[]> {
   return fetch("http://localhost:3000/teams-json", {
     method: "GET",
     headers: {
@@ -7,7 +9,7 @@ export function loadTeamsRequest() {
   }).then(r => r.json());
 }
 
-export function deleteTeamRequest(id: string, callback?: (status: any) => void) {
+export function deleteTeamRequest(id: string, callback?: (status: any) => void): Promise<{ success: boolean }> {
   return fetch("http://localhost:3000/teams-json/delete", {
     method: "DELETE",
     headers: {
@@ -22,7 +24,7 @@ export function deleteTeamRequest(id: string, callback?: (status: any) => void) 
     });
 }
 
-export function updateTeamRequest(team) {
+export function updateTeamRequest(team): Promise<{ success: boolean }> {
   return fetch("http://localhost:3000/teams-json/update", {
     method: "PUT",
     headers: {
@@ -32,7 +34,7 @@ export function updateTeamRequest(team) {
   }).then(r => r.json());
 }
 
-export function createTeamRequest(team) {
+export function createTeamRequest(team): Promise<{ success: boolean; id: string }> {
   return fetch("http://localhost:3000/teams-json/create", {
     method: "POST",
     headers: {
