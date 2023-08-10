@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "./static/css/main.c9cca06a.css",
+    "main.js": "./static/js/main.1427453d.js",
+    "static/js/787.b99b1b81.chunk.js": "./static/js/787.b99b1b81.chunk.js",
+    "static/media/network-team-icon.png": "./static/media/network-team-icon.edf60b8b1b71d5f6ac53.png",
+    "static/media/th.png": "./static/media/th.b65bb854f1ff13c46e6c.png",
+    "index.html": "./index.html",
+    "main.c9cca06a.css.map": "./static/css/main.c9cca06a.css.map",
+    "main.1427453d.js.map": "./static/js/main.1427453d.js.map",
+    "787.b99b1b81.chunk.js.map": "./static/js/787.b99b1b81.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c9cca06a.css",
+    "static/js/main.1427453d.js"
+  ]
+}
