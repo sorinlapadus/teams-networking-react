@@ -2,7 +2,7 @@ import { Team } from "../models";
 
 let loadURL = "http://localhost:3000/teams-json";
 if (window.location.host === "sorinlapadus.github.io") {
-  loadURL = "https://github.com/sorinlapadus/teams-networking-react/blob/master/public/teams.json";
+  loadURL = "teams.json";
 }
 export function loadTeamsRequest(): Promise<Team[]> {
   return fetch("http://localhost:3000/teams-json", {
