@@ -5,7 +5,7 @@ if (window.location.host === "sorinlapadus.github.io") {
   loadURL = "teams.json";
 }
 export function loadTeamsRequest(): Promise<Team[]> {
-  return fetch("http://localhost:3000/teams-json", {
+  return fetch(loadURL, {
     method: "GET",
     headers: {
       "Content-Type": "application/json"
