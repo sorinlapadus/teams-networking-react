@@ -1,5 +1,9 @@
 import { Team } from "../models";
 
+let loadURL = "http://localhost:3000/teams-json";
+if (window.location.host === "sorinlapadus.github.io") {
+  loadURL = "http://sorinlapadus.github.io/teams-json";
+}
 export function loadTeamsRequest(): Promise<Team[]> {
   return fetch("http://localhost:3000/teams-json", {
     method: "GET",
