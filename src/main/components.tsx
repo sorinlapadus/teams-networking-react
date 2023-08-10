@@ -8,11 +8,18 @@ export function ContentWrapper() {
           <button id="removeSelected">❌ Remove selected</button>
         </div>
         <div className="tbar-right">
-          <input type="search" id="searchTeams" placeholder="Search" />
+          <input
+            type="search"
+            id="searchTeams"
+            placeholder="Search"
+            onChange={e => {
+              console.info("search", e.target.value);
+            }}
+          />
           <label htmlFor="search">🔎</label>
         </div>
       </div>
-      <TeamsTableWrapper />
+      <TeamsTableWrapper search={""} />
     </div>
   );
 }
