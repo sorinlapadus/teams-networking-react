@@ -373,13 +373,14 @@ export class TeamsTableWrapper extends React.Component<WrapperProps, State> {
   }
 }
 
-function filterElements(elements: Team[], search: string) {
+function filterElements<T extends {}>(elements: T[], search: string) {
   if (!search) return elements;
   search = search.trim().toLowerCase();
   return elements.filter(element => {
     return Object.entries(element).some(([key, value]) => {
       if (key !== "id") {
-        return value.toLowerCase().includes(search);
+        if (typeof value === "string") return value.toString().toLowerCase().includes(search);
+        return value;
       }
     });
   });
