@@ -1,5 +1,5 @@
 import React from "react";
-import { deleteTeamRequest, loadTeamsRequest, updateTeamRequest } from "./middleware";
+import { createTeamRequest, deleteTeamRequest, loadTeamsRequest, updateTeamRequest } from "./middleware";
 import { Team } from "../models";
 type RowProps = {
   team: Team;
@@ -201,7 +201,11 @@ export function TeamsTable(props: Props & Actions) {
                 name="promotion"
                 placeholder="Enter promotion"
                 required
+                value={props.team.id ? "" : props.team.promotion}
                 disabled={!!props.team.id}
+                onChange={e => {
+                  props.inputChange("promotion", e.target.value);
+                }}
               />
             </td>
             <td>
@@ -211,7 +215,11 @@ export function TeamsTable(props: Props & Actions) {
                 name="members"
                 placeholder="Enter members"
                 required
+                value={props.team.id ? "" : props.team.members}
                 disabled={!!props.team.id}
+                onChange={e => {
+                  props.inputChange("members", e.target.value);
+                }}
               />
             </td>
             <td>
@@ -221,7 +229,11 @@ export function TeamsTable(props: Props & Actions) {
                 name="name"
                 placeholder="Enter project name"
                 required
+                value={props.team.id ? "" : props.team.name}
                 disabled={!!props.team.id}
+                onChange={e => {
+                  props.inputChange("name", e.target.value);
+                }}
               />
             </td>
             <td>
@@ -231,7 +243,11 @@ export function TeamsTable(props: Props & Actions) {
                 name="url"
                 placeholder="Enter project URL"
                 required
+                value={props.team.id ? "" : props.team.url}
                 disabled={!!props.team.id}
+                onChange={e => {
+                  props.inputChange("url", e.target.value);
+                }}
               />
             </td>
             <td>
@@ -287,6 +303,26 @@ export class TeamsTableWrapper extends React.Component<WrapperProps, State> {
     });
   }
 
+  async save() {
+    const team = this.state.team;
+    this.setState({ loading: true });
+    let done: boolean;
+    if (team.id) {
+      console.info("save", team);
+      const { success } = await updateTeamRequest(team);
+      done = success;
+    } else {
+      console.info("create");
+      const { id, success } = await createTeamRequest(team);
+      done = success;
+    }
+    if (done) {
+      await this.loadTeams();
+      this.setState({ team: getEmptyTeam() });
+    }
+    this.setState({ loading: false });
+  }
+
   render() {
     return (
       <TeamsTable
@@ -301,13 +337,8 @@ export class TeamsTableWrapper extends React.Component<WrapperProps, State> {
             this.loadTeams();
           }
         }}
-        save={async () => {
-          console.info("save", this.state.team);
-          const status = await updateTeamRequest(this.state.team);
-          if (status.success) {
-            await this.loadTeams();
-            this.setState({ team: getEmptyTeam() });
-          }
+        save={() => {
+          this.save();
         }}
         reset={() => {
           console.info("reset", this.state.team);
