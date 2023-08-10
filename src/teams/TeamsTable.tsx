@@ -311,13 +311,16 @@ export class TeamsTableWrapper extends React.Component<WrapperProps, State> {
       console.info("save", team);
       const { success } = await updateTeamRequest(team);
       done = success;
+      await this.loadTeams();
     } else {
       console.info("create");
       const { id, success } = await createTeamRequest(team);
       done = success;
+      this.setState(state => ({
+        teams: [...state.teams, { ...team, id }]
+      }));
     }
     if (done) {
-      await this.loadTeams();
       this.setState({ loading: false, team: getEmptyTeam() });
     }
   }
