@@ -1,44 +1,33 @@
-import "./menu.css";
 import { useState } from "react";
-type PageType = "home" | "TODO" | "Teams";
+import "./menu.css";
+
+type Page = "home" | "todos" | "teams";
+
 export function MainMenu() {
-  //const active: string = "home";
-  const [active, setActive] = useState<PageType>("home");
+  //const active: string = "teams"; // 48 lines
+  const [active, setActive] = useState<Page>("home");
+
+  const elements = [
+    { text: "Home", name: "home" },
+    { text: "Todos", name: "todos" },
+    { text: "Teams", name: "teams" }
+  ];
+
   return (
     <ul id="top-menu-bar">
-      <li>
-        <a
-          href="#home"
-          className={active === "home" ? "active" : ""}
-          onClick={() => {
-            setActive("home");
-          }}
-        >
-          HOME
-        </a>
-      </li>
-      <li>
-        <a
-          href="#TODO"
-          className={active === "TODO" ? "active" : ""}
-          onClick={() => {
-            setActive("TODO");
-          }}
-        >
-          TODO
-        </a>
-      </li>
-      <li>
-        <a
-          href="Teams"
-          className={active === "Teams" ? "active" : ""}
-          onClick={() => {
-            setActive("Teams");
-          }}
-        >
-          Teams
-        </a>
-      </li>
+      {elements.map(element => (
+        <li>
+          <a
+            href={"#" + element.name}
+            className={active === element.name ? "active" : ""}
+            onClick={() => {
+              setActive(element.name as Page); // tmp use 'as Page'
+            }}
+          >
+            {element.text}
+          </a>
+        </li>
+      ))}
     </ul>
   );
 }
