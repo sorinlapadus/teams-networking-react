@@ -1,6 +1,7 @@
 import { TeamsTableWrapper } from "../teams/TeamsTable";
 import { useState } from "react";
 import { Page } from "../models";
+import { TodosApp } from "../todos/components";
 export function TeamsPage() {
   const [search, setSearch] = useState("");
   return (
@@ -32,7 +33,7 @@ export function HomePage() {
 }
 
 export function TodosPage() {
-  return <div>Todos...</div>;
+  return <TodosApp />;
 }
 type Props = { activePage: Page };
 export function ContentWrapper(props: Props) {
