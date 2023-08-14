@@ -1,10 +1,10 @@
 import { TeamsTableWrapper } from "../teams/TeamsTable";
 import { useState } from "react";
 
-export function ContentWrapper() {
+export function TeamsPage() {
   const [search, setSearch] = useState("");
   return (
-    <div id="main">
+    <>
       <div className="tbar tbar-lr">
         <div className="tbar-left">
           <button id="removeSelected">❌ Remove selected</button>
@@ -23,6 +23,26 @@ export function ContentWrapper() {
         </div>
       </div>
       <TeamsTableWrapper search={search} />
+    </>
+  );
+}
+
+export function HomePage() {
+  return <div>Home...</div>;
+}
+
+export function TodosPage() {
+  return <div>Todos...</div>;
+}
+
+export function ContentWrapper() {
+  //console.warn("wrapper.render %o", search);
+
+  return (
+    <div id="main">
+      <HomePage />
+      <TodosPage />
+      <TeamsPage />
     </div>
   );
 }
