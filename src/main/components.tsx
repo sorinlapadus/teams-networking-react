@@ -34,10 +34,10 @@ export function HomePage() {
 export function TodosPage() {
   return <div>Todos...</div>;
 }
-
-export function ContentWrapper() {
+type Props = { activePage: Page };
+export function ContentWrapper(props: Props) {
   //console.warn("wrapper.render %o", search);
-  const activePage: Page = "teams" as Page;
+  const activePage = props.activePage;
   let page;
   switch (activePage) {
     case "home":

@@ -1,6 +1,8 @@
 import logo from "../images/network-team-icon.png";
 import { MainMenu } from "../menu/MainMenu";
-export default function AppHeader() {
+import { Page } from "../models";
+type Props = { activePage: Page };
+export default function AppHeader(props: Props) {
   return (
     <div id="header-wrapper">
       <header>
