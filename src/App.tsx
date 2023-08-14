@@ -9,7 +9,7 @@ import { Page } from "./models";
 import { useState } from "react";
 function App() {
   const [active, setActive] = useState<Page>("home");
-  setTimeout(() => setActive("todos"), 3000);
+  //setTimeout(() => setActive("todos"), 3000);
   return (
     <>
       <AppHeader activePage={active} />
