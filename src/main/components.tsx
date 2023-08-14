@@ -38,11 +38,20 @@ export function TodosPage() {
 export function ContentWrapper() {
   //console.warn("wrapper.render %o", search);
   const activePage: Page = "teams" as Page;
-  return (
-    <div id="main">
-      {activePage === "home" ? <HomePage /> : null}
-      {activePage === "todos" ? <TodosPage /> : null}
-      {activePage === "teams" ? <TeamsPage /> : null}
-    </div>
-  );
+  let page;
+  switch (activePage) {
+    case "home":
+      page = <HomePage />;
+      break;
+    case "todos":
+      page = <TodosPage />;
+      break;
+    case "teams":
+      page = <TeamsPage />;
+      break;
+    default:
+      page = null;
+      break;
+  }
+  return <div id="main">{page}</div>;
 }
