@@ -14,7 +14,7 @@ export function MainMenu() {
   ];
 
   return (
-    <ul id="top-menu-bar">
+    <ul className="top-menu-bar">
       {elements.map(element => (
         <li>
           <a
