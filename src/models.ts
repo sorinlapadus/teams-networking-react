@@ -5,3 +5,4 @@ export type Team = {
   members: string;
   name: string;
 };
+export type Page = "home" | "todos" | "teams";

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import "./menu.css";
-
-type Page = "home" | "todos" | "teams";
+import { Page } from "../models";
 
 export function MainMenu() {
   //const active: string = "teams"; // 48 lines
