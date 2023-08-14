@@ -5,7 +5,10 @@ import { Page } from "../models";
 type Props = {
   activePage: Page;
 };
-export function MainMenu(props: Props) {
+type Actions = {
+  setActive(active: Page): void;
+};
+export function MainMenu(props: Props & Actions) {
   //const active: string = "teams"; // 48 lines
 
   const elements = [
@@ -22,7 +25,7 @@ export function MainMenu(props: Props) {
             href={"#" + element.name}
             className={props.activePage === element.name ? "active" : ""}
             onClick={() => {
-              //setActive(element.name as Page); // tmp use 'as Page'
+              props.setActive(element.name as Page); // tmp use 'as Page'
             }}
           >
             {element.text}

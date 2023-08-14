@@ -2,7 +2,8 @@ import logo from "../images/network-team-icon.png";
 import { MainMenu } from "../menu/MainMenu";
 import { Page } from "../models";
 type Props = { activePage: Page };
-export default function AppHeader(props: Props) {
+type Actions = { setActive(active: Page): void };
+export default function AppHeader(props: Props & Actions) {
   return (
     <div id="header-wrapper">
       <header>
@@ -14,7 +15,7 @@ export default function AppHeader(props: Props) {
           <h2>CRUD operations example (Create, Read, Update, Delete)</h2>
         </div>
       </header>
-      <MainMenu activePage={props.activePage} />
+      <MainMenu activePage={props.activePage} setActive={props.setActive} />
     </div>
   );
 }

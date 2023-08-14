@@ -12,7 +12,12 @@ function App() {
   //setTimeout(() => setActive("todos"), 3000);
   return (
     <>
-      <AppHeader activePage={active} />
+      <AppHeader
+        activePage={active}
+        setActive={newActive => {
+          setActive(newActive);
+        }}
+      />
       <ContentWrapper activePage={active} />
       <AppFooter />
     </>
