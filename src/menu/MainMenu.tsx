@@ -1,8 +1,9 @@
 import "./menu.css";
 import { useState } from "react";
+type PageType = "home" | "TODO" | "Teams";
 export function MainMenu() {
   //const active: string = "home";
-  const [active, setActive] = useState("");
+  const [active, setActive] = useState<PageType>("home");
   return (
     <ul id="top-menu-bar">
       <li>
