@@ -200,3 +200,8 @@ tfoot td {
   animation: 2s linear 0s normal none infinite running spin;
   filter: drop-shadow(0 0 2 rgba(0, 0, 0, 0.33));
 }
+
+.app-icon {
+  display: inline-block;
+  min-width: 35px;
+}
