@@ -2,9 +2,11 @@ import { useState } from "react";
 import "./menu.css";
 import { Page } from "../models";
 
-export function MainMenu() {
+type Props = {
+  activePage: Page;
+};
+export function MainMenu(props: Props) {
   //const active: string = "teams"; // 48 lines
-  const [active, setActive] = useState<Page>("home");
 
   const elements = [
     { text: "Home", name: "home" },
@@ -15,12 +17,12 @@ export function MainMenu() {
   return (
     <ul className="top-menu-bar">
       {elements.map(element => (
-        <li>
+        <li key={element.name}>
           <a
             href={"#" + element.name}
-            className={active === element.name ? "active" : ""}
+            className={props.activePage === element.name ? "active" : ""}
             onClick={() => {
-              setActive(element.name as Page); // tmp use 'as Page'
+              //setActive(element.name as Page); // tmp use 'as Page'
             }}
           >
             {element.text}

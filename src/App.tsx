@@ -6,12 +6,14 @@ import { AppFooter } from "./footer/components";
 import AppHeader from "./header";
 import { ContentWrapper } from "./main/components";
 import { Page } from "./models";
+import { useState } from "react";
 function App() {
-  const activePage: Page = "teams" as Page;
+  const [active, setActive] = useState<Page>("home");
+  setTimeout(() => setActive("todos"), 3000);
   return (
     <>
-      <AppHeader activePage={activePage} />
-      <ContentWrapper activePage={activePage} />
+      <AppHeader activePage={active} />
+      <ContentWrapper activePage={active} />
       <AppFooter />
     </>
   );

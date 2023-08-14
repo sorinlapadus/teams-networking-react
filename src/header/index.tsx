@@ -14,7 +14,7 @@ export default function AppHeader(props: Props) {
           <h2>CRUD operations example (Create, Read, Update, Delete)</h2>
         </div>
       </header>
-      <MainMenu />
+      <MainMenu activePage={props.activePage} />
     </div>
   );
 }
